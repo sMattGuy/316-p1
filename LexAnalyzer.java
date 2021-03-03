@@ -1,7 +1,6 @@
 import java.io.*;
 
 public class LexAnalyzer{
-	String[] keywords = {"class","if","null","this"};
 	public static void main(String[] args) throws FileNotFoundException, IOException{
 		//set up file
 		if(args.length != 1){
@@ -10,42 +9,68 @@ public class LexAnalyzer{
 		}
 		File file = new File(args[0]);
 		BufferedReader br = new BufferedReader(new FileReader(file));
-		int characterNum = br.read();
+		
+		token identity = new token();
+		identity.characterNum = br.read();
 		//reads the characters in until finished
-		while(characterNum != -1){
-			char characterRead = (char)characterNum;
-			if(characterNum == 10){
-				characterNum = 32;
-				characterRead = (char)characterNum;
+		while(identity.characterNum != -1){
+			boolean valid = true;
+			char characterRead = (char)identity.characterNum;
+			if(identity.characterNum == 10){
+				identity.characterNum = br.read();
 			}
-			String iden = identify(characterNum);
-			//starts parsing multi step tokens
-			if(iden.equals("advanced")){
-				//id
-				//int
-				//add
-				//sub
-				//dot
-				//lt
-				//gt
-			}
-			//output if single character
 			else{
-				System.out.println(characterRead + ":" + iden);
+				identity.iden = identify();
+				//starts parsing multi step tokens
+				if(identity.iden.equals("advanced")){
+					identity.word = Character.toString((char)identity.characterNum);
+					characterNum = br.read();
+					//start of complex tokens
+					//id
+					//int
+					//add
+					//sub
+					//dot
+					
+					
+					//print out results of advanced parse
+					if(valid){
+						System.out.println(word + " : " + iden);
+					}
+				}
+				//output if single character
+				else{
+					System.out.println(characterRead + ":" + iden);
+					characterNum = br.read();
+				}
 			}
-			characterNum = br.read();
 		}
 		br.close();
+	} 
+}
+class token{
+	public String word;
+	public int characterNum;
+	public String iden;
+	//constructor
+	public token(){
+		this.word = "";
+		this.characterNum = 0;
+		this.iden = "";
 	}
-	static boolean keywordCheck(String input){
-		for(int i=0;i<keywords.length();i++){
+	//methods
+	public boolean keywordCheck(String input){
+		String[] keywords = {"class","if","null","this"};
+		for(int i=0;i<keywords.length;i++){
 			if(keywords[i].equals(input)){
 				return true;
 			}
 		}
 		return false;
 	}
-	static String identify(int input){
+	//simple identifiers
+	public void identify(){
+		int input = this.characterNum;
 		String type;
 		switch(input){
 			case 42: //*
@@ -85,6 +110,60 @@ public class LexAnalyzer{
 			type = "advanced";
 			break;
 		}
-		return type;
+		this.iden = type;
+		return;
 	}
+	//int
+	public void integer(BufferedReader br){
+		while(characterNum >= 48 || characterNum <= 57){
+			word = word + Character.toString((char)characterNum);
+			characterNum = br.read();
+		}
+		return;
+	}
+	//id
+	public void id(BufferedReader br){
+		while((this.characterNum >= 65 || this.characterNum <= 90)||
+				(this.characterNum >= 97 || this.characterNum <= 122)||
+				(this.characterNum >= 48 || this.characterNum <= 57)){
+			this.word = this.word + Character.toString((char)this.characterNum);
+			this.characterNum = br.read();
+		}
+		return;
+	}
+	//e
+	public void e(BufferedReader br){
+		this.word = this.word + Character.toString((char)this.characterNum);
+		this.characterNum = br.read();
+		return;
+	} 
+	//dot
+	public void dot(BufferedReader br){
+		
+	}
+	//gt
+	public void lt(BufferedReader br){
+		this.iden = "gt";
+		this.characterNum = br.read();
+		if(characterNum == 61){
+			this.word = this.word + Character.toString((char)this.characterNum);
+			this.iden = "ge";
+		}
+		return;
+	}
+	//lt
+	public void lt(BufferedReader br){
+		this.iden = "lt";
+		this.characterNum = br.read();
+		if(characterNum == 61){
+			this.word = this.word + Character.toString((char)this.characterNum);
+			this.iden = "le";
+		}
+		return;
+	}
+	//float
+	public void floatType(BufferedReader br){
+		
+	}
+	//floate
 }
