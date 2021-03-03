@@ -1,0 +1,59 @@
+class Point
+{
+	x
+	y
+}
+
+class Shape
+{
+	((move x y) ())
+}
+
+class OpenShape : Shape
+{
+}
+
+class Line : OpenShape
+{
+	p1
+	p2
+	((length) (...))
+}
+
+class ClosedShape : Shape
+{
+	((circumference) ())
+	((area) ())
+}
+
+class Polygon : ClosedShape
+{
+}
+
+class Triangle : Polygon
+{
+	p1
+	p2
+	p3
+}
+
+class Rectangle : Polygon
+{
+	p1
+	p2
+}
+
+class Square : Rectangle
+{
+}
+
+class Ellipse : ClosedShape
+{
+	center
+	majorAxis
+	minorAxis
+}
+
+class Circle : Ellipse
+{
+}

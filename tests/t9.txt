@@ -1,0 +1,33 @@
+((square x) (* x x))
+
+((pi) 3.14159)
+
+((cylinderVolume length radius)
+  (* length (* (pi) (square radius))))
+
+((fact n)
+  (if (= n 0) 1
+              (* n (fact (- n 1)))
+  )
+)
+
+((test x y)
+  (if (> x -0987) +6453
+                  (/ -1540 y)
+  )
+)
+
+((square y) (* y y))
+
+((pi) 3.14159)
+
+((square z) (* z z))
+
+((cylinderVolume length length)
+  (* length (* (pi) (square radius))))
+
+((test x y x y)
+  (if (> x -0987) +6453
+                  (/ -1540 y)
+  )
+)

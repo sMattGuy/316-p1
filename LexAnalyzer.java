@@ -17,7 +17,6 @@ public class LexAnalyzer{
 		while(identity.characterNum != -1){
 			identity.word = "";
 			identity.iden = "";
-			char characterRead = (char)identity.characterNum;
 			identity.identify();
 			//starts parsing multi step tokens
 			if(identity.iden.equals("advanced")){
@@ -58,18 +57,18 @@ public class LexAnalyzer{
 					System.out.println(identity.word + " : " + identity.iden);
 				}
 				//control chars
-				else if(identity.characterNum >= 0 && identity.characterNum <= 31){
+				else if(identity.characterNum >= 0 && identity.characterNum <= 32){
 					identity.characterNum = br.read();
 				}
 				//invalid token
 				else{
-					System.out.println(characterRead + "\t:\tLexical Error, Invalid Token");
+					System.out.println((char)identity.characterNum + "\t:\tLexical Error, Invalid Token");
 					identity.characterNum = br.read();
 				}
 			}
 			//output if single character
 			else{
-				System.out.println(characterRead + "\t:\t" + identity.iden);
+				System.out.println((char)identity.characterNum + "\t:\t" + identity.iden);
 				identity.characterNum = br.read();
 			}
 		}
@@ -190,9 +189,11 @@ class token{
 		this.iden = "add";
 		this.word = this.word + Character.toString((char)this.characterNum);
 		this.characterNum = br.read();
+		//dot
 		if(this.characterNum == 46){
 			this.decimalPoint(br);
 		}
+		//digit
 		else if(this.characterNum >= 48 && this.characterNum <= 57){
 			this.integer(br);
 		}
@@ -203,9 +204,11 @@ class token{
 		this.iden = "sub";
 		this.word = this.word + Character.toString((char)this.characterNum);
 		this.characterNum = br.read();
+		//dot
 		if(this.characterNum == 46){
 			this.decimalPoint(br);
 		}
+		//digit
 		else if(this.characterNum >= 48 && this.characterNum <= 57){
 			this.integer(br);
 		}
@@ -268,6 +271,7 @@ class token{
 		//+ -
 		if(this.characterNum == 43 || this.characterNum == 45){
 			this.word = this.word + Character.toString((char)this.characterNum);
+			this.characterNum = br.read();
 			if(this.characterNum >= 48 && this.characterNum <= 57){
 				this.floatEType(br);
 			}
@@ -294,6 +298,7 @@ class token{
 			this.floatType(br);
 		}
 		else{
+			this.word = this.word + Character.toString((char)this.characterNum);
 			this.iden = "Lexical Error, Invalid Token";
 			this.characterNum = br.read();
 		}

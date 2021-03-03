@@ -1,0 +1,75 @@
+class Pair
+{
+	first
+	second
+	first
+}
+
+class List
+{
+	data
+	tailList
+	tailList
+}
+
+class BinTree
+{
+	data
+	leftSubtree
+	rightSubTree
+	data
+}
+
+class List
+{
+	data
+	tail
+	tail
+}
+
+class List
+{
+	data
+	tailL
+	tailL
+	data
+}
+
+class Pair
+{
+	first
+	second
+}
+
+class BinTree
+{
+	data
+	leftSubtree
+	rightSubTree
+}
+
+
+((examplePair) (Pair (Pair 1 2) (Pair 3 4)))
+
+((exampleList) (List 1 (List 2 (List 3 null))))
+
+((exampleBinTree) (BinTree 1 (BinTree 2 null null) (BinTree 3 null null)))
+
+((buildList i) (if (= i 0) null
+                   (List i (buildList (- i 1)))
+               )
+)
+
+((listLength list)
+	(if (= list null) 0
+	    (+ 1 (listLength (tailList list)))
+	)
+)
+
+((max x y) (if (>= x y) x y))
+
+((binTreeHeight bt)
+	(if (= bt null) 0
+	    (max (binTreeHeight (leftSubTree bt)) (binTreeHeight (rightSubTree bt)))
+	)
+)
